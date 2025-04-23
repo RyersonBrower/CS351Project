@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Order Report Modal Elements
 const orderButton = document.getElementById("button2");
 const orderModal = document.getElementById("orderModal");
@@ -16,6 +17,23 @@ closeOrderButton.addEventListener("click", () => {
 window.addEventListener("click", (event) => {
     if (event.target === orderModal) {
         orderModal.style.display = "none";
+=======
+const orderButton = document.getElementById("button2");
+const modal = document.getElementById("orderModal");
+const closeButton = document.querySelector(".close-button");
+
+orderButton.addEventListener("click", () => {
+    modal.style.display = "block";
+});
+
+closeButton.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        modal.style.display = "none";
+>>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
     }
 });
 
@@ -44,7 +62,11 @@ function loadCustomers() {
         });
 }
 
+<<<<<<< HEAD
 // Submit order report
+=======
+// Generate order report
+>>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
 document.getElementById("submitOrderReport").addEventListener("click", () => {
     const selectedNum = document.getElementById("customerSelect").value;
 
@@ -56,6 +78,7 @@ document.getElementById("submitOrderReport").addEventListener("click", () => {
             },
             body: JSON.stringify({ customerNum: selectedNum }),
         })
+<<<<<<< HEAD
             .then(async response => {
                 if (!response.ok) {
                     const errorText = await response.text();
@@ -93,11 +116,52 @@ document.getElementById("submitOrderReport").addEventListener("click", () => {
                 console.error("Error during fetch:", error);
                 alert("Server error while generating report.");
             });
+=======
+        .then(async response => {
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Fetch failed: ${errorText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const reportResult = document.getElementById("reportResult");
+            console.log("Order report response:", data);
+
+            if (data.success) {
+                let totalPrice = data.data.TotalQuotedPrice;
+
+                // Convert if it's a string
+                if (typeof totalPrice === "string") {
+                    totalPrice = parseFloat(totalPrice);
+                }
+
+                if (typeof totalPrice === "number" && !isNaN(totalPrice)) {
+                    reportResult.innerHTML = `
+                        <h3>Customer: ${data.data.CustomerName}</h3>
+                        <p><strong>Total Quoted Price:</strong> $${totalPrice.toFixed(2)}</p>
+                    `;
+                } else {
+                    reportResult.innerHTML = `
+                        <h3>Customer: ${data.data.CustomerName}</h3>
+                        <p style="color:orange;"><strong>Total Quoted Price:</strong> No valid total available.</p>
+                    `;
+                }
+            } else {
+                reportResult.innerHTML = `<p style="color:red;">${data.message}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error("Error during fetch:", error);
+            alert("Server error while generating report.");
+        });
+>>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
     } else {
         alert("Please select a customer.");
     }
 });
 
+<<<<<<< HEAD
 // Representative Report Modal Elements
 const repButton = document.getElementById("button1");
 const repModal = document.getElementById("repModal");
@@ -168,3 +232,7 @@ window.addEventListener("click", (event) => {
 
 // Load customers when page loads
 document.addEventListener("DOMContentLoaded", loadCustomers);
+=======
+// Load customers on page load
+document.addEventListener("DOMContentLoaded", loadCustomers);
+>>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb

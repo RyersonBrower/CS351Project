@@ -11,7 +11,11 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
+<<<<<<< HEAD
     password: "sowwaslost",
+=======
+    password: "Rb03/18/05",
+>>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
     database: "CFG"
 });
 
@@ -51,6 +55,7 @@ app.get("/customers", (req, res) => {
         res.json({ success: true, data: results });
     });
 });
+<<<<<<< HEAD
 //  rep report route
 app.get("/rep-report", (req, res) => {
     const sqlRepReport = `
@@ -81,6 +86,8 @@ app.get("/rep-report", (req, res) => {
 
 });
 
+=======
+>>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
 
 //  Order report route (uses CustomerNum now)
 app.post("/order-report", (req, res) => {
