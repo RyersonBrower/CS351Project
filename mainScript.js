@@ -1,0 +1,170 @@
+// Order Report Modal Elements
+const orderButton = document.getElementById("button2");
+const orderModal = document.getElementById("orderModal");
+const closeOrderButton = document.querySelector(".close-button");
+
+// Open Order Modal
+orderButton.addEventListener("click", () => {
+    orderModal.style.display = "block";
+});
+
+// Close Order Modal
+closeOrderButton.addEventListener("click", () => {
+    orderModal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === orderModal) {
+        orderModal.style.display = "none";
+    }
+});
+
+// Load customer names from server
+function loadCustomers() {
+    fetch("http://localhost:3000/customers")
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const customerSelect = document.getElementById("customerSelect");
+                customerSelect.innerHTML = '<option value="">-- Select a Customer --</option>';
+
+                data.data.forEach(customer => {
+                    const option = document.createElement("option");
+                    option.value = customer.CustomerNum;
+                    option.textContent = customer.CustomerName;
+                    customerSelect.appendChild(option);
+                });
+            } else {
+                alert("Could not load customer list.");
+            }
+        })
+        .catch(error => {
+            console.error("Error loading customers:", error);
+            alert("Error fetching customer list.");
+        });
+}
+
+// Submit order report
+document.getElementById("submitOrderReport").addEventListener("click", () => {
+    const selectedNum = document.getElementById("customerSelect").value;
+
+    if (selectedNum) {
+        fetch("http://localhost:3000/order-report", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ customerNum: selectedNum }),
+        })
+            .then(async response => {
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Fetch failed: ${errorText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const reportResult = document.getElementById("reportResult");
+                console.log("Order report response:", data);
+
+                if (data.success) {
+                    let totalPrice = data.data.TotalQuotedPrice;
+
+                    if (typeof totalPrice === "string") {
+                        totalPrice = parseFloat(totalPrice);
+                    }
+
+                    if (typeof totalPrice === "number" && !isNaN(totalPrice)) {
+                        reportResult.innerHTML = `
+                            <h3>Customer: ${data.data.CustomerName}</h3>
+                            <p><strong>Total Quoted Price:</strong> $${totalPrice.toFixed(2)}</p>
+                        `;
+                    } else {
+                        reportResult.innerHTML = `
+                            <h3>Customer: ${data.data.CustomerName}</h3>
+                            <p style="color:orange;"><strong>Total Quoted Price:</strong> No valid total available.</p>
+                        `;
+                    }
+                } else {
+                    reportResult.innerHTML = `<p style="color:red;">${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error("Error during fetch:", error);
+                alert("Server error while generating report.");
+            });
+    } else {
+        alert("Please select a customer.");
+    }
+});
+
+// Representative Report Modal Elements
+const repButton = document.getElementById("button1");
+const repModal = document.getElementById("repModal");
+const repCloseButton = document.querySelector(".close-rep-button");
+
+// Open Rep Modal + Load Data
+repButton.addEventListener("click", () => {
+    fetch("http://localhost:3000/rep-report")
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById("repReportResult");
+
+            if (data.success) {
+                const reps = data.data;
+
+                if (reps.length === 0) {
+                    container.innerHTML = "<p>No representatives found.</p>";
+                    return;
+                }
+
+                let html = `
+                    <table border="1" style="border-collapse: collapse; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th># of Customers</th>
+                                <th>Average Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                reps.forEach(rep => {
+                    html += `
+                        <tr>
+                            <td>${rep.FirstName}</td>
+                            <td>${rep.LastName}</td>
+                            <td>${rep.NumCustomers}</td>
+                            <td>$${parseFloat(rep.AvgBalance || 0).toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+
+                html += "</tbody></table>";
+                container.innerHTML = html;
+                repModal.style.display = "block";
+            } else {
+                container.innerHTML = `<p style="color:red;">${data.message}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching rep report:", error);
+            alert("Server error while generating rep report.");
+        });
+});
+
+// Close Rep Modal
+repCloseButton.addEventListener("click", () => {
+    repModal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === repModal) {
+        repModal.style.display = "none";
+    }
+});
+
+// Load customers when page loads
+document.addEventListener("DOMContentLoaded", loadCustomers);
