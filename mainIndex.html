@@ -7,21 +7,8 @@
     <link rel="stylesheet" href="mainStyles.css">
 </head>
 <body>
-    
+
     <div id="buttonContainer">
-<<<<<<< HEAD
-        <button id="button1">Generate Representative Report</button>
-        <button id="button2">Generate Order Report</button>
-        <button id="button3">Add New Representative</button>
-        <button id="button4">Update Customer Credit</button>
-    </div>
-
-    <div id="exitContainer">
-        <button id="exitButton">Exit</button>
-    </div>
-
-    <!-- Order Report Modal -->
-=======
         <button id ="button1">Generate Representative Report</button>
         <button id ="button2">Generate Order Report</button>
         <button id ="button3">Add New Representative</button>
@@ -35,7 +22,6 @@
 
 
     <!-- Modal Structure -->
->>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -52,7 +38,6 @@
         </div>
     </div>
 
-<<<<<<< HEAD
     <!-- Representative Report Modal -->
     <div id="repModal" class="modal">
         <div class="modal-content">
@@ -61,14 +46,30 @@
             <div id="repReportResult" style="margin-top: 20px;"></div>
         </div>
     </div>
+    <!-- Add Representative Modal -->
+    <div id="addRepModal" class="modal">
+        <div class="modal-content">
+          <span class="close-add-rep">&times;</span>
+          <h2>Add New Representative</h2>
+        
+          <label for="newRepNum">Rep Number:</label>
+          <input type="text" id="newRepNum" required><br><br>
 
+         <label for="newFirstName">First Name:</label>
+         <input type="text" id="newFirstName" required><br><br>
+
+         <label for="newLastName">Last Name:</label>
+         <input type="text" id="newLastName" required><br><br>
+
+         <label for="newPassword">Password:</label>
+         <input type="password" id="newPassword" required><br><br>
+
+          <button id="submitNewRep">Add Representative</button>
+          <div id="addRepResult" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+    
     <script src="mainScript.js"></script>
 
 </body>
 </html>
-=======
-<script src="mainScript.js"></script>
-    
-</body>
-</html>
->>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb

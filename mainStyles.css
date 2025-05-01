@@ -86,7 +86,6 @@ body {
     font-size: 16px;
 }
 
-<<<<<<< HEAD
 /* Representative report result table inside modal */
 #repReportResult table {
     width: 100%;
@@ -112,7 +111,63 @@ body {
 #repReportResult tr:hover {
     background-color: #e1f3e6;
 }
-=======
 
->>>>>>> 24bb3e04fdf2236a352223fb05ee603df3bf87eb
+/* Add Rep Modal Styles */
+#addRepModal .modal-content {
+    width: 35%;
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    text-align: left;
+}
+
+#addRepModal label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+#addRepModal input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#submitNewRep {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#submitNewRep:hover {
+    background-color: #218838;
+}
+
+.close-add-rep {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close-add-rep:hover {
+    color: black;
+}
+
+#addRepResult {
+    font-size: 14px;
+    padding: 10px;
+}
 
