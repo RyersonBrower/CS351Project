@@ -311,7 +311,7 @@ submitUpdateCreditButton.addEventListener("click", () => {
 document.getElementById('exitButton').addEventListener('click', function() {
     // Check if the window can be closed (this prevents issues with modern browsers)
     if (window.confirm('Are you sure you want to exit?')) {
-        window.close(); // This will close the window
+        window.location.href = 'loginIndex.html'; // This will close the window
     }
 });
 
