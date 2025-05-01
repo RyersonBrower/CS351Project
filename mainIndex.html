@@ -68,6 +68,25 @@
           <div id="addRepResult" style="margin-top: 15px;"></div>
       </div>
     </div>
+
+        <!-- Update Customer Credit Modal -->
+    <div id="updateCreditModal" class="modal">
+     <div class="modal-content">
+         <span class="close-update-credit">&times;</span>
+         <h2>Update Customer Credit</h2>
+
+         <label for="customerSelectForCredit">Select Customer:</label>
+         <select id="customerSelectForCredit">
+             <!-- Populated dynamically from backend -->
+         </select>
+
+          <label for="newCreditAmount">New Credit Limit:</label>
+         <input type="number" id="newCreditAmount" required><br><br>
+
+         <button id="submitUpdateCredit">Update Credit</button>
+         <div id="updateCreditResult" style="margin-top: 15px;"></div>
+     </div>
+    </div>   
     
     <script src="mainScript.js"></script>
 

@@ -224,6 +224,97 @@ submitNewRep.addEventListener("click", () => {
     });
 });
 
+// Update Customer Credit Modal Elements
+const updateCreditButton = document.getElementById("button4");
+const updateCreditModal = document.getElementById("updateCreditModal");
+const closeUpdateCreditButton = document.querySelector(".close-update-credit");
+const submitUpdateCreditButton = document.getElementById("submitUpdateCredit");
+const updateCreditResultContainer = document.getElementById("updateCreditResult");
+
+// Open Update Customer Credit Modal
+updateCreditButton.addEventListener("click", () => {
+    updateCreditModal.style.display = "block";
+    loadCustomersForCreditUpdate(); // Load customer dropdown on modal open
+});
+
+// Close Update Customer Credit Modal
+closeUpdateCreditButton.addEventListener("click", () => {
+    updateCreditModal.style.display = "none";
+    updateCreditResultContainer.innerHTML = "";
+});
+
+// Outside click to close modal
+window.addEventListener("click", (event) => {
+    if (event.target === updateCreditModal) {
+        updateCreditModal.style.display = "none";
+        updateCreditResultContainer.innerHTML = "";
+    }
+});
+
+// Load customers for the credit update dropdown
+function loadCustomersForCreditUpdate() {
+    fetch("http://localhost:3000/customers")
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const customerSelectForCredit = document.getElementById("customerSelectForCredit");
+                customerSelectForCredit.innerHTML = '<option value="">-- Select a Customer --</option>';
+
+                data.data.forEach(customer => {
+                    const option = document.createElement("option");
+                    option.value = customer.CustomerNum;
+                    option.textContent = customer.CustomerName;
+                    customerSelectForCredit.appendChild(option);
+                });
+            } else {
+                alert("Could not load customer list.");
+            }
+        })
+        .catch(error => {
+            console.error("Error loading customers:", error);
+            alert("Error fetching customer list.");
+        });
+}
+
+// Submit the new customer credit update
+submitUpdateCreditButton.addEventListener("click", () => {
+    const selectedCustomerNum = document.getElementById("customerSelectForCredit").value;
+    const newCreditAmount = document.getElementById("newCreditAmount").value.trim();
+
+    if (!selectedCustomerNum || !newCreditAmount) {
+        updateCreditResultContainer.innerHTML = "<p style='color: red;'>Please select a customer and enter a valid credit amount.</p>";
+        return;
+    }
+
+    fetch("http://localhost:3000/update-customer-credit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ customerNum: selectedCustomerNum, newCreditAmount: parseFloat(newCreditAmount) })
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                updateCreditResultContainer.innerHTML = "<p style='color: green;'>Customer credit updated successfully!</p>";
+            } else {
+                updateCreditResultContainer.innerHTML = `<p style='color: red;'>${data.message}</p>`;
+            }
+        })
+        .catch(err => {
+            console.error("Error updating credit:", err);
+            updateCreditResultContainer.innerHTML = "<p style='color: red;'>Server error while updating credit.</p>";
+        });
+});
+
+// Add event listener to the exit button
+document.getElementById('exitButton').addEventListener('click', function() {
+    // Check if the window can be closed (this prevents issues with modern browsers)
+    if (window.confirm('Are you sure you want to exit?')) {
+        window.close(); // This will close the window
+    }
+});
+
 // Load customers when page loads
 document.addEventListener("DOMContentLoaded", loadCustomers);
 

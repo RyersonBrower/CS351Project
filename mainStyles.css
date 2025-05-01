@@ -171,3 +171,77 @@ body {
     padding: 10px;
 }
 
+/* Update Credit Modal Styles */
+#updateCreditModal .modal-content {
+    width: 35%;
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    text-align: left;
+}
+
+#updateCreditModal h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form Labels and Inputs */
+#updateCreditModal label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #333;
+}
+
+#updateCreditModal select, #updateCreditModal input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#updateCreditModal select:focus, #updateCreditModal input[type="number"]:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+/* Submit Button */
+#updateCreditModal button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#updateCreditModal button:hover {
+    background-color: #218838;
+}
+
+/* Result Message Styling */
+#updateCreditResult {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#updateCreditResult p {
+    font-weight: bold;
+}
+
+#updateCreditResult p.green {
+    color: green;
+}
+
+#updateCreditResult p.red {
+    color: red;
+}
+

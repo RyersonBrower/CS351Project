@@ -143,6 +143,34 @@ app.post("/add-rep", (req, res) => {
     });
 });
 
+// Update customer credit
+app.post("/update-customer-credit", (req, res) => {
+    const { customerNum, newCreditAmount } = req.body;
+
+    if (!customerNum || !newCreditAmount) {
+        return res.status(400).json({ success: false, message: "Customer number and new credit amount are required." });
+    }
+
+    const sqlUpdateCredit = `
+        UPDATE Customer
+        SET CreditLimit = ?
+        WHERE CustomerNum = ?
+    `;
+
+    db.query(sqlUpdateCredit, [newCreditAmount, customerNum], (err, result) => {
+        if (err) {
+            console.error("Error updating customer credit:", err);
+            return res.status(500).json({ success: false, message: "Error updating credit limit." });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.json({ success: false, message: "Customer not found." });
+        }
+
+        res.json({ success: true, message: "Customer credit updated successfully." });
+    });
+});
+
 // Start server
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
